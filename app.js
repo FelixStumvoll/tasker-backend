@@ -1,0 +1,32 @@
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+
+import { dbUrl, port } from './config';
+import router from './src/routes';
+import exceptionMiddleware from './src/middlewares/exceptionMiddleware';
+
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+(async () => {
+    await mongoose
+        .connect(
+            dbUrl,
+            { useNewUrlParser: true }
+        )
+        .catch(error => {
+            console.log(`Error connecting to Database: ${error}`);
+            return;
+        });
+
+    console.log('connected to Database');
+
+    app.use('/api', router);
+    app.use(exceptionMiddleware);
+
+    await app.listen(port, () => {
+        console.log(`Server Running on Port ${port}`);
+    });
+})();
