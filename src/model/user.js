@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { saltRounds } from '../../config';
-import {passwordRules} from '../utils';
+import { passwordRules } from '../utils';
+import { taskSchema } from './task';
 
 const Schema = mongoose.Schema;
 
@@ -13,7 +14,8 @@ let userSchema = new Schema({
     passwordHash: {
         type: String,
         required: true
-    }
+    },
+    tasks: [taskSchema]
 });
 
 userSchema.methods.hashPassword = async function(plaintext) {
