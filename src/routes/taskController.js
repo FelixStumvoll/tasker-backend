@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { taskModel } from '../model/task';
 import parameterMiddleware from '../middlewares/parameterMiddleware';
 
@@ -10,7 +11,7 @@ router.get('/', async (req, res, next) => {
         let tasks = await taskModel.find({});
 
         if (tasks === null) {
-            throw 'internal Error';
+            throw { status: 404, message: 'no tasks found' };
         }
 
         return res.json(tasks);
@@ -19,29 +20,23 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.post('/', parameterMiddleware(['taskRoute']), async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
-        let body = req.body;
         let newTask = new taskModel({
-            route: body.taskRoute,
-            title: '',
-            text: undefined,
             tags: []
         });
 
         await newTask.save();
-        return res.status(201).send('Task created');
+        return res.status(201).json({ task: newTask });
     } catch (ex) {
         next(ex);
     }
 });
 
 router.put('/:id', parameterMiddleware(['task']), async (req, res, next) => {
-    console.log('req.body', req.body);
     try {
         let { id } = req.params;
         let { task } = req.body;
-        if (!id) throw 'Parameter missing';
 
         await taskModel.updateOne({ _id: id }, task);
 

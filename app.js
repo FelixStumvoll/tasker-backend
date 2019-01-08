@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 import { dbUrl, port } from './config';
 import router from './src/routes';
@@ -22,7 +23,7 @@ app.use(bodyParser.json());
         });
 
     console.log('connected to Database');
-
+    app.use(cors());
     app.use('/api', router);
     app.use(exceptionMiddleware);
 
