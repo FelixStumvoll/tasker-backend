@@ -49,6 +49,13 @@ router.post(
         try {
             let { body } = req;
 
+            let checkUser = await userModel.findOne({
+                username: body.username
+            });
+
+            if (checkUser)
+                throw { status: 400, message: 'Username already exists' };
+
             if (userModel.isPasswordValid(body.password))
                 throw {
                     status: 400,
