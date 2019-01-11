@@ -1,5 +1,6 @@
 import jwt from 'jwt-then';
 import { signingSecret } from '../../config';
+import {userModel} from '../model/user';
 
 export default async (req, res, next) => {
     try {
@@ -11,7 +12,11 @@ export default async (req, res, next) => {
                 throw { status: 401, message: 'invalid token' };
             });
 
-            res.locals.token = decoded;
+            let user = await userModel.findOne({ username: decoded.username });
+
+            if (!user) throw { status: 401, message: 'Unauthorized user' };
+
+            res.locals.user = user;
             return next();
         } else {
             throw { status: 401, message: 'invalid token' };

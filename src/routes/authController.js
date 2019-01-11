@@ -16,12 +16,12 @@ router.post(
                 username: body.username
             });
 
-            if (loginUser === null)
+            if (!loginUser)
                 throw {
                     status: 401,
                     message: 'Username or Password Incorrect'
                 };
-
+                
             if (!(await loginUser.comparePassword(body.password)))
                 throw {
                     status: 401,

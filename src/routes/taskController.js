@@ -3,15 +3,13 @@ import { Router } from 'express';
 import { taskModel } from '../model/task';
 import parameterMiddleware from '../middlewares/parameterMiddleware';
 import authenticationMiddleware from '../middlewares/authenticationMiddleware';
-import { userModel } from '../model/user';
 
 const router = Router();
 
 router.get('/', authenticationMiddleware, async (req, res, next) => {
     try {
-        let { username } = res.locals.token;
+        let { user } = res.locals;
 
-        let user = await userModel.findOne({ username });
 
         let tasks = await taskModel.find(
             { userId: user._id },
@@ -29,9 +27,7 @@ router.get('/', authenticationMiddleware, async (req, res, next) => {
 
 router.post('/', authenticationMiddleware, async (req, res, next) => {
     try {
-        let { username } = res.locals.token;
-
-        let user = await userModel.findOne({ username });
+        let { user } = res.locals;
 
         let newTask = new taskModel({
             userId: user._id
@@ -55,9 +51,7 @@ router.put(
         try {
             let { id } = req.params;
             let { task } = req.body;
-            let { username } = res.locals.token;
-
-            let user = await userModel.findOne({ username });
+            let { user } = res.locals;
 
             await taskModel.updateOne({ _id: id, userId: user._id }, task);
 
@@ -71,9 +65,7 @@ router.put(
 router.delete('/:id', authenticationMiddleware, async (req, res, next) => {
     try {
         let { id } = req.params;
-        let { username } = res.locals.token;
-
-        let user = await userModel.findOne({ username });
+        let { user } = res.locals;
 
         await taskModel.deleteOne({ _id: id, userId: user._id });
 
