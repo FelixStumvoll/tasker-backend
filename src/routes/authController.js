@@ -2,7 +2,7 @@ import { Router } from 'express';
 import parameterMiddleware from '../middlewares/parameterMiddleware';
 import { userModel } from '../model/user';
 import jwt from 'jwt-then';
-import { signingSecret } from '../../config';
+import { signingSecret } from '../config';
 
 const router = Router();
 

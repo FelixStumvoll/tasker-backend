@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 
 import { dbUrl, port } from './config';
-import router from './src/routes';
-import exceptionMiddleware from './src/middlewares/exceptionMiddleware';
+import router from './routes';
+import exceptionMiddleware from './middlewares/exceptionMiddleware';
 
 var serverPort = process.env.PORT || port;
 

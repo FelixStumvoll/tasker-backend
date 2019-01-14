@@ -1,5 +1,5 @@
 import jwt from 'jwt-then';
-import { signingSecret } from '../../config';
+import { signingSecret } from '../config';
 import {userModel} from '../model/user';
 
 export default async (req, res, next) => {

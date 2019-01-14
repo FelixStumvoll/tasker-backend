@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { saltRounds } from '../../config';
+import { saltRounds } from '../config';
 import { passwordRules } from '../utils';
+import '@babel/polyfill';
 
 const Schema = mongoose.Schema;
 
