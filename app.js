@@ -27,7 +27,7 @@ app.use(bodyParser.json());
     app.use('/api', router);
     app.use(exceptionMiddleware);
 
-    await app.listen(port, () => {
-        console.log(`Server Running on Port ${port}`);
+    await app.listen(() => {
+        console.log(`Server Running`);
     });
 })();
