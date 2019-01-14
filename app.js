@@ -12,24 +12,22 @@ var serverPort = process.env.PORT || port;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+mongoose
+    .connect(
+        dbUrl,
+        { useNewUrlParser: true }
+    )
+    .catch(error => {
+        console.log(`Error connecting to Database: ${error}`);
+        return;
+    })
+    .then(() => {
+        console.log('connected to Database');
+        app.use(cors());
+        app.use('/api', router);
+        app.use(exceptionMiddleware);
 
-(async () => {
-    await mongoose
-        .connect(
-            dbUrl,
-            { useNewUrlParser: true }
-        )
-        .catch(error => {
-            console.log(`Error connecting to Database: ${error}`);
-            return;
+        app.listen(serverPort, () => {
+            console.log(`Server Running on Port:${serverPort}`);
         });
-
-    console.log('connected to Database');
-    app.use(cors());
-    app.use('/api', router);
-    app.use(exceptionMiddleware);
-
-    await app.listen(serverPort, () => {
-        console.log(`Server Running on Port:${serverPort}`);
     });
-})();
