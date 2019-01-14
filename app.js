@@ -7,6 +7,8 @@ import { dbUrl, port } from './config';
 import router from './src/routes';
 import exceptionMiddleware from './src/middlewares/exceptionMiddleware';
 
+var serverPort = process.env.PORT || port;
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -27,7 +29,7 @@ app.use(bodyParser.json());
     app.use('/api', router);
     app.use(exceptionMiddleware);
 
-    await app.listen(() => {
-        console.log(`Server Running`);
+    await app.listen(serverPort, () => {
+        console.log(`Server Running on Port:${serverPort}`);
     });
 })();
