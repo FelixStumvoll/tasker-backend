@@ -1,4 +1,3 @@
-let passwordRules = ['.{8,}', '[a-z]', '[A-Z]', '(?=\\W)(\\S)', '\\d'];
 
 /*
 Passwordrules:
@@ -8,4 +7,4 @@ Needs to contain a special character
 Needs to contain a digit
 */
 
-export { passwordRules };
+export default ['.{8,}', '[a-z]', '[A-Z]', '(?=\\W)(\\S)', '\\d'];
