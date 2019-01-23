@@ -21,7 +21,7 @@ router.post(
                     status: 401,
                     message: 'Username or Password Incorrect'
                 };
-                
+
             if (!(await loginUser.comparePassword(body.password)))
                 throw {
                     status: 401,
@@ -56,7 +56,7 @@ router.post(
             if (checkUser)
                 throw { status: 400, message: 'Username already exists' };
 
-            if (userModel.isPasswordValid(body.password))
+            if (!userModel.isPasswordValid(body.password))
                 throw {
                     status: 400,
                     message: 'Password does not meet the requirements'
