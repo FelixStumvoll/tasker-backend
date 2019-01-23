@@ -43,6 +43,21 @@ router.post(
 );
 
 router.post(
+    '/usernameAvailable',
+    parameterMiddleware(['username']),
+    async (req, res, next) => {
+        try {
+            let { username } = req.body;
+            return res
+                .status(200)
+                .send((await userModel.countDocuments({ username })) == 0);
+        } catch (ex) {
+            next(ex);
+        }
+    }
+);
+
+router.post(
     '/register',
     parameterMiddleware(['username', 'password']),
     async (req, res, next) => {
