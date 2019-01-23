@@ -27,12 +27,12 @@ userSchema.methods.comparePassword = async function(plaintext) {
 };
 
 userSchema.statics.isPasswordValid = plaintext => {
-    passwordRules.forEach(rule => {
-        if (!new RegExp(rule).test(plaintext)) {
+    for (let i = 0; i < passwordRules.length; i++) {
+        if (!new RegExp(passwordRules[i]).test(plaintext)) {
             return false;
         }
-        return true;
-    });
+    }
+    return true;
 };
 
 let userModel = mongoose.model('User', userSchema);
